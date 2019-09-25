@@ -6,6 +6,8 @@ module Lib
     , binaryAddition
     ) where
 
+import Utils
+
 insertionSort :: Ord a => [a] -> [a]
 insertionSort []     = []
 insertionSort (x:xs) = isort x (insertionSort xs)
@@ -57,8 +59,8 @@ binaryAddition a b = reverse $ binadd (reverse a) (reverse b) Zero
     where
         binadd :: BinInt -> BinInt -> Binary -> BinInt
         binadd [] [] z         = [z]
-        binadd (x:xs) (y:ys) z = case add [x, y, z] of
-                                3 -> One : binadd xs ys One
-                                2 -> Zero : binadd xs ys One
-                                1 -> One : binadd xs ys Zero
-                                0 -> Zero : binadd xs ys Zero
+        binadd (x:xs) (y:ys) z = result : binadd xs ys carry
+                                    where
+                                        added  = add [x,y,z]
+                                        carry  = added >= 2 ? One :? Zero
+                                        result = added `mod` 2 == 0 ? Zero :? One
