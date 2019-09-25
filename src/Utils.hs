@@ -2,6 +2,8 @@ module Utils
   ( (<$$>)
   , split
   , strip
+  , Cond(..)
+  , (?)
   ) where
 
 wsch :: String
@@ -19,3 +21,12 @@ split c s = case rest of
 
 strip :: String -> String
 strip = unwords . words
+
+data Cond a = a :? a
+
+infixl 0 ?
+infixl 1 :?
+
+(?) :: Bool -> Cond a -> a
+True ? (x :? _)  = x
+False ? (_ :? y) = y
