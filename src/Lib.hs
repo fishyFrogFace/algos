@@ -1,6 +1,9 @@
 module Lib
     ( insertionSort
     , linearSearch
+    , BinInt(..)
+    , Binary(..)
+    , binaryAddition
     ) where
 
 insertionSort :: Ord a => [a] -> [a]
@@ -35,3 +38,26 @@ linearSearch lst val = lin lst val 0
         lin (x:xs) val i
             | x == val  = Just i
             | otherwise = lin xs val (i+1)
+
+-- binarySearch with dedicated types
+data Binary = Zero | One deriving (Eq, Show)
+
+type BinInt = [Binary]
+
+add :: [Binary] -> Int
+add [] = 0
+add (x:xs)
+    | x == Zero = 0 + add xs
+    | otherwise = 1 + add xs
+
+-- assuming that the lists are of equal length
+binaryAddition :: BinInt -> BinInt -> BinInt
+binaryAddition a b = reverse $ binadd (reverse a) (reverse b) Zero
+    where
+        binadd :: BinInt -> BinInt -> Binary -> BinInt
+        binadd [] [] z         = [z]
+        binadd (x:xs) (y:ys) z = case add [x, y, z] of
+                                3 -> One : binadd xs ys One
+                                2 -> Zero : binadd xs ys One
+                                1 -> One : binadd xs ys Zero
+                                0 -> Zero : binadd xs ys Zero
