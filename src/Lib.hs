@@ -44,11 +44,12 @@ data Binary = Zero | One deriving (Eq, Show)
 
 type BinInt = [Binary]
 
+toInt :: Binary -> Int
+toInt One  = 1
+toInt Zero = 0
+
 add :: [Binary] -> Int
-add [] = 0
-add (x:xs)
-    | x == Zero = 0 + add xs
-    | otherwise = 1 + add xs
+add lst = sum $ map toInt lst
 
 -- assuming that the lists are of equal length
 binaryAddition :: BinInt -> BinInt -> BinInt
