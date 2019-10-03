@@ -4,7 +4,7 @@ module Lib
     , BinInt(..)
     , Binary(..)
     , binaryAddition
-    , merge
+    , mergeSort
     ) where
 
 import Utils
@@ -66,13 +66,16 @@ binaryAddition a b = reverse $ binadd (reverse a) (reverse b) Zero
                                         carry  = added >= 2 ? One :? Zero
                                         result = added `mod` 2 == 0 ? Zero :? One
 
-merge :: Ord a => [a] -> Int -> [a]
-merge lst n = merge' l r
+merge :: Ord a => [a] -> [a] -> [a]
+merge [] b = b
+merge a [] = a
+merge (x:xs) (y:ys)
+    | x <= y    = x : merge xs (y:ys)
+    | otherwise = y : merge (x:xs) ys
+
+mergeSort :: Ord a => [a] -> [a]
+mergeSort [x]  = [x]
+mergeSort lst  = merge (mergeSort l) (mergeSort r)
     where
-        (l, r) = splitAt n lst
-        merge' :: Ord a => [a] -> [a] -> [a]
-        merge' [] b          = b
-        merge' a []          = a
-        merge' (x:xs) (y:ys)
-            | x <= y    = x : merge' xs (y:ys)
-            | otherwise = y : merge' (x:xs) ys
+        len = length lst `div` 2
+        (l, r) = splitAt len lst
