@@ -4,6 +4,7 @@ module Lib
     , BinInt(..)
     , Binary(..)
     , binaryAddition
+    , merge
     ) where
 
 import Utils
@@ -64,3 +65,14 @@ binaryAddition a b = reverse $ binadd (reverse a) (reverse b) Zero
                                         added  = add [x,y,z]
                                         carry  = added >= 2 ? One :? Zero
                                         result = added `mod` 2 == 0 ? Zero :? One
+
+merge :: Ord a => [a] -> Int -> [a]
+merge lst n = merge' l r
+    where
+        (l, r) = splitAt n lst
+        merge' :: Ord a => [a] -> [a] -> [a]
+        merge' [] b          = b
+        merge' a []          = a
+        merge' (x:xs) (y:ys)
+            | x <= y    = x : merge' xs (y:ys)
+            | otherwise = y : merge' (x:xs) ys
