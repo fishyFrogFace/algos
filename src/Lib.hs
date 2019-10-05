@@ -74,8 +74,11 @@ merge (x:xs) (y:ys)
     | otherwise = y : merge (x:xs) ys
 
 mergeSort :: Ord a => [a] -> [a]
-mergeSort [x]  = [x]
-mergeSort lst  = merge (mergeSort l) (mergeSort r)
-    where
-        len = length lst `div` 2
-        (l, r) = splitAt len lst
+mergeSort = mergeAll . map (:[])
+
+mergeAll []  = []
+mergeAll [x] = x
+mergeAll xs  = mergeAll (mergePairs xs)
+
+mergePairs (x:y:ys) = merge x y : mergePairs ys
+mergePairs ys       = ys
