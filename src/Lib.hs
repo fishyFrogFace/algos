@@ -10,6 +10,7 @@ module Lib
     ) where
 
 import Data.Array
+import Data.List (sort)
 
 import Utils
 
@@ -70,6 +71,7 @@ binaryAddition a b = reverse $ binadd (reverse a) (reverse b) Zero
                                         carry  = added >= 2 ? One :? Zero
                                         result = added `mod` 2 == 0 ? Zero :? One
 
+-- TODO benchmark against ghc sort
 merge :: Ord a => [a] -> [a] -> [a]
 merge [] b = b
 merge a [] = a
@@ -100,15 +102,19 @@ binarySearch a start end e
         middle = (start+end) `div` 2
         mElem  = a ! middle
 
---not n log n
+-- TODO benchmark against old implementation
 sumOfTwo :: [Int] -> Int -> Bool
-sumOfTwo [] i     = False
-sumOfTwo (x:xs) i
-    | sumOfTwo' x xs = True
-    | otherwise      = sumOfTwo xs i
+sumOfTwo [] n     = False
+sumOfTwo lst n    = sumOfTwo' 0
     where
-        sumOfTwo' :: Int -> [Int] -> Bool
-        sumOfTwo' _ [] = False
-        sumOfTwo' x (y:ys)
-            | x+y == i   = True
-            | otherwise = sumOfTwo' x ys
+        sorted = sort lst -- O(n log n), could have used own merge sort
+        l      = (length sorted) - 1 -- O(n)
+        arr    = listArray (0,l) sorted -- assuming O(n), might be wrong
+        sumOfTwo' :: Int -> Bool
+        sumOfTwo' i
+            | i > l             = False
+            | search == Nothing = sumOfTwo' $ i+1
+            | otherwise         = True
+            where
+                search = binarySearch arr 0 l find
+                find   = n - (arr ! i)
