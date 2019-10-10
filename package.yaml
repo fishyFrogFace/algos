@@ -25,6 +25,7 @@ library:
   source-dirs: src
   dependencies:
   - deepseq
+  - array
 
 executables:
   algos-exe:

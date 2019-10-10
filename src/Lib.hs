@@ -5,8 +5,11 @@ module Lib
     , Binary(..)
     , binaryAddition
     , mergeSort
+    , binarySearch
     , sumOfTwo
     ) where
+
+import Data.Array
 
 import Utils
 
@@ -83,6 +86,18 @@ mergeAll xs  = mergeAll (mergePairs xs)
 
 mergePairs (x:y:ys) = merge x y : mergePairs ys
 mergePairs ys       = ys
+
+arr = listArray (0,500) [0..500] :: Array Int Int
+
+-- implement binary search to have search in log n time complexity
+binarySearch :: Ord e => Array Int e -> e -> Int -> Int -> Int
+binarySearch a e start end
+    | mElem == e = middle
+    | mElem < e  = binarySearch a e (middle+1) end
+    | otherwise  = binarySearch a e start (middle-1)
+    where
+        middle = (start+end) `div` 2
+        mElem  = a ! middle
 
 --not n log n
 sumOfTwo :: [Int] -> Int -> Bool
