@@ -90,11 +90,12 @@ mergePairs ys       = ys
 arr = listArray (0,500) [0..500] :: Array Int Int
 
 -- implement binary search to have search in log n time complexity
-binarySearch :: Ord e => Array Int e -> e -> Int -> Int -> Int
-binarySearch a e start end
-    | mElem == e = middle
-    | mElem < e  = binarySearch a e (middle+1) end
-    | otherwise  = binarySearch a e start (middle-1)
+binarySearch :: Ord e => Array Int e -> Int -> Int -> e -> Maybe Int
+binarySearch a start end e
+    | mElem == e   = Just middle
+    | start == end = Nothing
+    | mElem < e    = binarySearch a (middle+1) end e
+    | otherwise    = binarySearch a start (middle-1) e
     where
         middle = (start+end) `div` 2
         mElem  = a ! middle
