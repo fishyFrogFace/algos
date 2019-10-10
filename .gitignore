@@ -2,3 +2,5 @@
 algos.cabal
 *~
 __pycache__/
+*.swp
+*.swo
