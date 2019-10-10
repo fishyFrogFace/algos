@@ -5,6 +5,7 @@ module Lib
     , Binary(..)
     , binaryAddition
     , mergeSort
+    , sumOfTwo
     ) where
 
 import Utils
@@ -82,3 +83,16 @@ mergeAll xs  = mergeAll (mergePairs xs)
 
 mergePairs (x:y:ys) = merge x y : mergePairs ys
 mergePairs ys       = ys
+
+--not n log n
+sumOfTwo :: [Int] -> Int -> Bool
+sumOfTwo [] i     = False
+sumOfTwo (x:xs) i
+    | sumOfTwo' x xs = True
+    | otherwise      = sumOfTwo xs i
+    where
+        sumOfTwo' :: Int -> [Int] -> Bool
+        sumOfTwo' _ [] = False
+        sumOfTwo' x (y:ys)
+            | x+y == i   = True
+            | otherwise = sumOfTwo' x ys
