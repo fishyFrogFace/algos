@@ -1,6 +1,5 @@
 module Benchmark
-  ( arbitraryIntVectorOf
-  , vectorsOfIntBench
+  ( vectorsOfIntBench
   ) where
 
 import Test.QuickCheck (generate, vectorOf, arbitrary) 
@@ -15,7 +14,7 @@ arbitraryIntVectorOf n = generate (vectorOf n arbitrary)
 vectorsOfIntBench :: (Control.DeepSeq.NFData b1, Control.DeepSeq.NFData b2) => String -> String -> ([Int] -> b1) -> ([Int] -> b2) -> IO ()
 vectorsOfIntBench n1 n2 f1 f2 =
   defaultMainWith
-    (defaultConfig {reportFile = Just "benchmark.html"})
+    (defaultConfig {reportFile = Just $ n1 ++ "-" ++ n2 ++ ".html"})
     [env (arbitraryIntVectorOf 5)
          (\ ~lst ->
             bgroup
