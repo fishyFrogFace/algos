@@ -71,7 +71,7 @@ binaryAddition a b = reverse $ binadd (reverse a) (reverse b) Zero
                                         carry  = added >= 2 ? One :? Zero
                                         result = added `mod` 2 == 0 ? Zero :? One
 
--- TODO benchmark against ghc sort
+-- about 10x slower than Data.List (sort)
 merge :: Ord a => [a] -> [a] -> [a]
 merge [] b = b
 merge a [] = a
