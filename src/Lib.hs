@@ -107,8 +107,8 @@ sumOfTwo :: [Int] -> Int -> Bool
 sumOfTwo [] n     = False
 sumOfTwo lst n    = sumOfTwo' 0
     where
-        sorted = sort lst -- O(n log n), could have used own merge sort
-        l      = length sorted -- O(n)
+        sorted = sort lst -- O(n log n), using sort because of performance
+        l      = (length sorted) - 1 -- O(n)
         arr    = listArray (0,l) sorted -- assuming O(n), might be wrong
         sumOfTwo' :: Int -> Bool
         sumOfTwo' i
