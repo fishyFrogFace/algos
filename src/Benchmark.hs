@@ -16,7 +16,19 @@ vectorsOfIntBench :: (Control.DeepSeq.NFData b1, Control.DeepSeq.NFData b2) => S
 vectorsOfIntBench n1 n2 f1 f2 =
   defaultMainWith
     (defaultConfig {reportFile = Just "benchmark.html"})
-    [env (arbitraryIntVectorOf 100)
+    [env (arbitraryIntVectorOf 5)
+         (\ ~lst ->
+            bgroup
+              "5 elements"
+              [bench n1 $ nf f1 lst
+              ,bench n2 $ nf f2 lst])
+    , env (arbitraryIntVectorOf 10)
+         (\ ~lst ->
+            bgroup
+              "10 elements"
+              [bench n1 $ nf f1 lst
+              ,bench n2 $ nf f2 lst])
+    , env (arbitraryIntVectorOf 100)
          (\ ~lst ->
             bgroup
               "10² elements"
