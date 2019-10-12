@@ -27,6 +27,7 @@ library:
   - deepseq
   - array
   - QuickCheck
+  - criterion
 
 executables:
   algos-exe:
