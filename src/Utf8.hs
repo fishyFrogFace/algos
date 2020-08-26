@@ -3,8 +3,9 @@ module Utf8
   , readFileUtf8
   ) where
 
-import System.IO (hSetEncoding, hPutStr, IOMode(..), withFile, hGetContents, utf8)
-import Control.DeepSeq (($!!))
+import           Control.DeepSeq (($!!))
+import           System.IO       (IOMode (..), hGetContents, hPutStr,
+                                  hSetEncoding, utf8, withFile)
 
 writeWithMode :: FilePath -> String -> IOMode -> IO ()
 writeWithMode fp content mode =

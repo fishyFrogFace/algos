@@ -14,19 +14,23 @@ a <$$> b = (fmap . fmap) a b
 
 --from GHC.Util
 split :: Char -> String -> [String]
-split c s = case rest of
-                []     -> [chunk]
-                _:rest -> chunk : split c rest
-  where (chunk, rest) = break (==c) s
+split c s =
+  case rest of
+    []     -> [chunk]
+    _:rest -> chunk : split c rest
+  where
+    (chunk, rest) = break (== c) s
 
 strip :: String -> String
 strip = unwords . words
 
-data Cond a = a :? a
+data Cond a =
+  a :? a
 
 infixl 0 ?
+
 infixl 1 :?
 
 (?) :: Bool -> Cond a -> a
-True ? (x :? _)  = x
+True ? (x :? _) = x
 False ? (_ :? y) = y
