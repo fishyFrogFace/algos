@@ -1,5 +1,6 @@
 module Lib
     ( insertionSort
+    , insertionSort2
     , linearSearch
     , BinInt(..)
     , Binary(..)
@@ -37,6 +38,18 @@ isort 5 [1,2,3]
 1:2:(isort 5 [3])
 1:2:3:(isort 5 [])
 [1,2,3,5] -}
+
+insertionSort2 :: Ord a => [a] -> [a]
+insertionSort2 lst = isort2 [] lst
+  where
+    isort2 :: Ord a => [a] -> [a] -> [a]
+    isort2 sorted []     = sorted
+    isort2 sorted (x:xs) = isort2 (isort2' sorted x) xs
+    isort2' :: Ord a => [a] -> a -> [a]
+    isort2' [] n = [n]
+    isort2' l@(x:xs) n
+      | x <= n    = x : isort2' xs n
+      | otherwise = n : l
 
 linearSearch :: Eq a => [a] -> a -> Maybe Int
 linearSearch lst val = lin lst val 0
