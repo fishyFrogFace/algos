@@ -24,22 +24,22 @@ vectorsOfIntBench n1 n2 f1 f2 =
     (defaultConfig {reportFile = Just $ n1 ++ "-" ++ n2 ++ ".html"})
     [ env
         (arbitraryIntVectorOf 5)
-        ( \ ~lst ->
+        ( \lst ->
             bgroup "5 elements" [bench n1 $ nf f1 lst, bench n2 $ nf f2 lst]
         ),
       env
         (arbitraryIntVectorOf 10)
-        ( \ ~lst ->
+        ( \lst ->
             bgroup "10 elements" [bench n1 $ nf f1 lst, bench n2 $ nf f2 lst]
         ),
       env
         (arbitraryIntVectorOf 100)
-        ( \ ~lst ->
+        ( \lst ->
             bgroup "10² elements" [bench n1 $ nf f1 lst, bench n2 $ nf f2 lst]
         ),
       env
         (arbitraryIntVectorOf 1000)
-        ( \ ~lst ->
+        ( \lst ->
             bgroup "10³ elements" [bench n1 $ nf f1 lst, bench n2 $ nf f2 lst]
         )
     ]

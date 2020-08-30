@@ -13,6 +13,7 @@ where
 
 import Data.Array
 import Data.List (sort)
+import Data.Maybe (isNothing)
 import Utils
 
 insertionSort :: Ord a => [a] -> [a]
@@ -23,7 +24,7 @@ insertionSort (x : xs) = isort x (insertionSort xs)
     isort x [] = [x]
     isort x (y : ys)
       | x < y = x : y : ys
-      | otherwise = y : (isort x ys)
+      | otherwise = y : isort x ys
 
 {-
 insertionSort [5,2,3,1]
@@ -39,7 +40,7 @@ isort 5 [1,2,3]
 1:2:3:(isort 5 [])
 [1,2,3,5] -}
 insertionSort2 :: Ord a => [a] -> [a]
-insertionSort2 lst = isort2 [] lst
+insertionSort2 = isort2 []
   where
     isort2 :: Ord a => [a] -> [a] -> [a]
     isort2 sorted [] = sorted
@@ -97,13 +98,16 @@ merge (x : xs) (y : ys)
 mergeSort :: Ord a => [a] -> [a]
 mergeSort = mergeAll . map (: [])
 
+mergeAll :: Ord a => [[a]] -> [a]
 mergeAll [] = []
 mergeAll [x] = x
 mergeAll xs = mergeAll (mergePairs xs)
 
+mergePairs :: Ord a => [[a]] -> [[a]]
 mergePairs (x : y : ys) = merge x y : mergePairs ys
 mergePairs ys = ys
 
+arr :: Array Int Int
 arr = listArray (0, 500) [0 .. 500] :: Array Int Int
 
 -- implement binary search to have search in log n time complexity
@@ -124,12 +128,12 @@ sumOfTwo [] n = False
 sumOfTwo lst n = sumOfTwo' 0
   where
     sorted = sort lst -- O(n log n), using sort because of performance
-    l = (length sorted) - 1 -- O(n)
+    l = length sorted - 1 -- O(n)
     arr = listArray (0, l) sorted -- assuming O(n), might be wrong
     sumOfTwo' :: Int -> Bool
     sumOfTwo' i
       | i > l = False
-      | search == Nothing = sumOfTwo' $ i + 1
+      | isNothing search = sumOfTwo' $ i + 1
       | otherwise = True
       where
         search = binarySearch arr 0 l find
