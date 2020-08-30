@@ -1,6 +1,7 @@
 module Utf8
   ( writeFileUtf8
   , readFileUtf8
+  ,
   ) where
 
 import           Control.DeepSeq (($!!))

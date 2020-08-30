@@ -1,20 +1,20 @@
 module Lib
-  ( insertionSort,
-    insertionSort2,
-    linearSearch,
-    BinInt (..),
-    Binary (..),
-    binaryAddition,
-    mergeSort,
-    binarySearch,
-    sumOfTwo,
+  ( insertionSort
+  , linearSearch
+  , BinInt (..)
+  , Binary (..)
+  , binaryAddition
+  , mergeSort
+  , binarySearch
+  , sumOfTwo
+  ,
   )
 where
 
-import Data.Array
-import Data.List (sort)
-import Data.Maybe (isNothing)
-import Utils
+import           Data.Array
+import           Data.List  (sort)
+import           Data.Maybe (isNothing)
+import           Utils
 
 insertionSort :: Ord a => [a] -> [a]
 insertionSort [] = []
@@ -39,17 +39,6 @@ isort 5 [1,2,3]
 1:2:(isort 5 [3])
 1:2:3:(isort 5 [])
 [1,2,3,5] -}
-insertionSort2 :: Ord a => [a] -> [a]
-insertionSort2 = isort2 []
-  where
-    isort2 :: Ord a => [a] -> [a] -> [a]
-    isort2 sorted [] = sorted
-    isort2 sorted (x : xs) = isort2 (isort2' sorted x) xs
-    isort2' :: Ord a => [a] -> a -> [a]
-    isort2' [] n = [n]
-    isort2' l@(x : xs) n
-      | x <= n = x : isort2' xs n
-      | otherwise = n : l
 
 linearSearch :: Eq a => [a] -> a -> Maybe Int
 linearSearch lst val = lin lst val 0
@@ -69,7 +58,7 @@ data Binary
 type BinInt = [Binary]
 
 toInt :: Binary -> Int
-toInt One = 1
+toInt One  = 1
 toInt Zero = 0
 
 add :: [Binary] -> Int
@@ -99,13 +88,13 @@ mergeSort :: Ord a => [a] -> [a]
 mergeSort = mergeAll . map (: [])
 
 mergeAll :: Ord a => [[a]] -> [a]
-mergeAll [] = []
+mergeAll []  = []
 mergeAll [x] = x
-mergeAll xs = mergeAll (mergePairs xs)
+mergeAll xs  = mergeAll (mergePairs xs)
 
 mergePairs :: Ord a => [[a]] -> [[a]]
 mergePairs (x : y : ys) = merge x y : mergePairs ys
-mergePairs ys = ys
+mergePairs ys           = ys
 
 arr :: Array Int Int
 arr = listArray (0, 500) [0 .. 500] :: Array Int Int

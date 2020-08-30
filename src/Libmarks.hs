@@ -1,5 +1,6 @@
 module Libmarks
   ( sortVsMergeSort
+  ,
   ) where
 
 import           Data.List (sort)

@@ -1,13 +1,14 @@
 module Benchmark
-  ( vectorsOfIntBench,
+  ( vectorsOfIntBench
+  ,
   )
 where
 
-import Control.DeepSeq (NFData (..))
-import Criterion (bench, bgroup, env, nf)
-import Criterion.Main (defaultConfig, defaultMainWith)
-import Criterion.Types (reportFile)
-import Test.QuickCheck (arbitrary, generate, vectorOf)
+import           Control.DeepSeq (NFData (..))
+import           Criterion       (bench, bgroup, env, nf)
+import           Criterion.Main  (defaultConfig, defaultMainWith)
+import           Criterion.Types (reportFile)
+import           Test.QuickCheck (arbitrary, generate, vectorOf)
 
 arbitraryIntVectorOf :: Int -> IO [Int]
 arbitraryIntVectorOf n = generate (vectorOf n arbitrary)
