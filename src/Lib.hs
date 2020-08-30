@@ -1,27 +1,27 @@
 module Lib
-  ( insertionSort
-  , insertionSort2
-  , linearSearch
-  , BinInt(..)
-  , Binary(..)
-  , binaryAddition
-  , mergeSort
-  , binarySearch
-  , sumOfTwo
-  ) where
+  ( insertionSort,
+    insertionSort2,
+    linearSearch,
+    BinInt (..),
+    Binary (..),
+    binaryAddition,
+    mergeSort,
+    binarySearch,
+    sumOfTwo,
+  )
+where
 
-import           Data.Array
-import           Data.List  (sort)
-
-import           Utils
+import Data.Array
+import Data.List (sort)
+import Utils
 
 insertionSort :: Ord a => [a] -> [a]
 insertionSort [] = []
-insertionSort (x:xs) = isort x (insertionSort xs)
+insertionSort (x : xs) = isort x (insertionSort xs)
   where
     isort :: Ord a => a -> [a] -> [a]
     isort x [] = [x]
-    isort x (y:ys)
+    isort x (y : ys)
       | x < y = x : y : ys
       | otherwise = y : (isort x ys)
 
@@ -42,11 +42,11 @@ insertionSort2 :: Ord a => [a] -> [a]
 insertionSort2 lst = isort2 [] lst
   where
     isort2 :: Ord a => [a] -> [a] -> [a]
-    isort2 sorted []     = sorted
-    isort2 sorted (x:xs) = isort2 (isort2' sorted x) xs
+    isort2 sorted [] = sorted
+    isort2 sorted (x : xs) = isort2 (isort2' sorted x) xs
     isort2' :: Ord a => [a] -> a -> [a]
     isort2' [] n = [n]
-    isort2' l@(x:xs) n
+    isort2' l@(x : xs) n
       | x <= n = x : isort2' xs n
       | otherwise = n : l
 
@@ -55,7 +55,7 @@ linearSearch lst val = lin lst val 0
   where
     lin :: Eq a => [a] -> a -> Int -> Maybe Int
     lin [] _ _ = Nothing
-    lin (x:xs) val i
+    lin (x : xs) val i
       | x == val = Just i
       | otherwise = lin xs val (i + 1)
 
@@ -68,7 +68,7 @@ data Binary
 type BinInt = [Binary]
 
 toInt :: Binary -> Int
-toInt One  = 1
+toInt One = 1
 toInt Zero = 0
 
 add :: [Binary] -> Int
@@ -80,7 +80,7 @@ binaryAddition a b = reverse $ binadd (reverse a) (reverse b) Zero
   where
     binadd :: BinInt -> BinInt -> Binary -> BinInt
     binadd [] [] z = [z]
-    binadd (x:xs) (y:ys) z = result : binadd xs ys carry
+    binadd (x : xs) (y : ys) z = result : binadd xs ys carry
       where
         added = add [x, y, z]
         carry = added >= 2 ? One :? Zero
@@ -90,19 +90,19 @@ binaryAddition a b = reverse $ binadd (reverse a) (reverse b) Zero
 merge :: Ord a => [a] -> [a] -> [a]
 merge [] b = b
 merge a [] = a
-merge (x:xs) (y:ys)
+merge (x : xs) (y : ys)
   | x <= y = x : merge xs (y : ys)
   | otherwise = y : merge (x : xs) ys
 
 mergeSort :: Ord a => [a] -> [a]
 mergeSort = mergeAll . map (: [])
 
-mergeAll []  = []
+mergeAll [] = []
 mergeAll [x] = x
-mergeAll xs  = mergeAll (mergePairs xs)
+mergeAll xs = mergeAll (mergePairs xs)
 
-mergePairs (x:y:ys) = merge x y : mergePairs ys
-mergePairs ys       = ys
+mergePairs (x : y : ys) = merge x y : mergePairs ys
+mergePairs ys = ys
 
 arr = listArray (0, 500) [0 .. 500] :: Array Int Int
 
@@ -118,6 +118,7 @@ binarySearch a start end e
     mElem = a ! middle
 
 -- TODO benchmark against old implementation
+-- i don't know where to find old implementation
 sumOfTwo :: [Int] -> Int -> Bool
 sumOfTwo [] n = False
 sumOfTwo lst n = sumOfTwo' 0
