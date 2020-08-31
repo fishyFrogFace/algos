@@ -1,13 +1,13 @@
-name:                algos
-version:             0.1.0.0
-github:              "fishyfrogface/algos"
-license:             BSD3
-author:              "Camilla Rygh"
-copyright:           "2019 Camilla Rygh"
+name: algos
+version: 0.1.0.0
+github: "fishyfrogface/algos"
+license: BSD3
+author: "Camilla Rygh"
+copyright: "2019 Camilla Rygh"
 
 extra-source-files:
-- README.md
-- ChangeLog.md
+  - README.md
+  - ChangeLog.md
 
 # Metadata used when publishing your package
 # synopsis:            Short description of your package
@@ -16,37 +16,38 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/fishyfrogface/algos#readme>
+description: Please see the README on GitHub at <https://github.com/fishyfrogface/algos#readme>
 
 dependencies:
-- base >= 4.7 && < 5
+  - base >= 4.7 && < 5
 
 library:
   source-dirs: src
   dependencies:
-  - deepseq
-  - array
-  - QuickCheck
-  - criterion
+    - deepseq
+    - array
+    - QuickCheck
+    - criterion
+    - matrix
 
 executables:
   algos-exe:
-    main:                Main.hs
-    source-dirs:         app
+    main: Main.hs
+    source-dirs: app
     ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
     dependencies:
-    - algos
+      - algos
 
 tests:
   algos-test:
-    main:                Spec.hs
-    source-dirs:         test
+    main: Spec.hs
+    source-dirs: test
     ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
     dependencies:
-    - algos
+      - algos
