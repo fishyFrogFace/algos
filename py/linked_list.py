@@ -37,3 +37,12 @@ def toListRecursive(node):
         else:
             return list
     return toListRec(node, [])
+
+def search_list(node, x):
+    if node:
+        if node.i == x:
+            return node
+        else:
+            return search_list(node.next, x)
+    else:
+        return None
