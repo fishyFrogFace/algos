@@ -1,7 +1,6 @@
 class Queue:
     head = 0
     tail = 0
-    ## queue = [0 for i in range(0,11)]
     queue = [0 for i in range(0,11)]
 
 def enqueue(Q,x):
