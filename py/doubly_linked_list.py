@@ -1,3 +1,5 @@
+from linked_list import toList
+
 class Node:
     def __init__(self, i, prev, next):
         self.i = i
@@ -10,7 +12,29 @@ def prepend(node, x):
       node.prev = newNode
     return newNode
 
+def fromList(list):
+  prev = None
+  for i in range(len(list)-1,-1,-1):
+      new = prepend(prev, list[i])
+      prev = new
+  return prev
+
+def findLast(node):
+  while node.next:
+    node = node.next
+  return node
+
+def toReverseList(node):
+  n = findLast(node)
+  defined = True
+  list = []
+  while defined:
+      if n and n.i != None:
+          list.append(n.i)
+          n = n.prev
+      else:
+          defined = False
+  return list
+
 if __name__ == "__main__":
-    one = prepend(None, 1)
-    two = prepend(one, 0)
-    print(one.prev.i)
+    print(toReverseList(fromList([1,2,3,4])))
