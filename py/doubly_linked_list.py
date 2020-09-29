@@ -36,5 +36,22 @@ def toReverseList(node):
           defined = False
   return list
 
+def delete(node, x):
+    def delOne(n, prev, x):
+        if n:
+            if n.i == x:
+                prev.next = n.next
+                n.next.prev = prev
+            else:
+                delOne(n.next, n, x)
+
+    # check if the list is not empty and the first node is the one to get deleted
+    if node and node.i == x:
+        node.next.prev = None
+        return node.next
+    else:
+        delOne(node.next, node, x)
+        return node
+
 if __name__ == "__main__":
-    print(toReverseList(fromList([1,2,3,4])))
+    print(toReverseList(delete(fromList([1,2,3,4,5]),1)))
