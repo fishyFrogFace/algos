@@ -22,7 +22,7 @@ def toList(node):
     defined = True
     list = []
     while defined:
-        if node and node.i:
+        if node and node.i != None:
             list.append(node.i)
             node = node.next
         else:
@@ -31,7 +31,7 @@ def toList(node):
 
 def toListRecursive(node):
     def toListRec(n, list):
-        if n and n.i:
+        if n and n.i != None:
             list.append(n.i)
             return toListRec(n.next, list)
         else:
@@ -46,3 +46,26 @@ def search_list(node, x):
             return search_list(node.next, x)
     else:
         return None
+
+def prepend(node, x):
+    return Node(x, node)
+
+def delete(node, x):
+    def delOne(n, prev, x):
+        if n:
+            if n.i == x:
+                prev.next = n.next
+            else:
+                delOne(n.next, n, x)
+
+    # check if the list is not empty and the first node is the one to get deleted
+    if node and node.i == x:
+        return node.next
+    else:
+        delOne(node.next, node, x)
+        return node
+
+if __name__ == "__main__":
+    lst = fromList([n for n in range(0,6)])
+    new = delete(lst, 3)
+    print(toList(new))
