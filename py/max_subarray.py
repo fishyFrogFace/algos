@@ -1,10 +1,8 @@
-from math import ceil, inf
+from math import floor, inf
 
 # other implementations include mid in argument list
 # i can't see why this is necessary
-def find_max_crossing_subarray(A,low,high):
-  mid = ceil((low + high) / 2)
-  print(mid)
+def find_max_crossing_subarray(A, low, mid, high):
   left_sum = -inf
   sum = 0
   max_left = mid
@@ -22,8 +20,33 @@ def find_max_crossing_subarray(A,low,high):
     if sum > right_sum:
       right_sum = sum
       max_right = j
-  return (max_left, max_right, left_sum, right_sum)
+  return (max_left, max_right, left_sum + right_sum)
+
+def inspect(a):
+  print(a)
+  return a
+
+def find_max_subarray(A):
+  def max_sub(A, low, high):
+    mid = floor((low + high) / 2)
+    if high == low:
+      return (low, high, A[low])
+    else:
+      (cross_low, cross_high, cross_sum) = find_max_crossing_subarray(A, low, mid, high)
+      (left_low, left_high, left_sum) = max_sub(A, low, mid)
+      (right_low, right_high, right_sum) = max_sub(A, mid+1, high)
+      largest = max(cross_sum, left_sum, right_sum)
+      if largest == left_sum:
+        return (left_low, left_high, left_sum)
+      elif largest == cross_sum: 
+        return (cross_low, cross_high, cross_sum)
+      else:
+        return (right_low, right_high, right_sum)
+
+  return max_sub(A, 0, len(A)-1)
 
 if __name__ == "__main__":
-  array = [i for i in range(0,101)]
-  print(find_max_crossing_subarray(array, 50, 75))
+  #array = [i for i in range(0,101)]
+  #print(find_max_crossing_subarray(array, 50, 63, 75))
+  array = [-45,-40,1,1,-35,-30,-25,-20,-15,-10,-5,0,1,0,0,4]
+  print(find_max_subarray(array))
