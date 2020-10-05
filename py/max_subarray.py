@@ -32,16 +32,16 @@ def find_max_subarray(A):
     if high == low:
       return (low, high, A[low])
     else:
-      (cross_low, cross_high, cross_sum) = find_max_crossing_subarray(A, low, mid, high)
-      (left_low, left_high, left_sum) = max_sub(A, low, mid)
-      (right_low, right_high, right_sum) = max_sub(A, mid+1, high)
+      cross = _, _, cross_sum = find_max_crossing_subarray(A, low, mid, high)
+      left = _, _, left_sum = max_sub(A, low, mid)
+      right = _, _, right_sum = max_sub(A, mid+1, high)
       largest = max(cross_sum, left_sum, right_sum)
       if largest == left_sum:
-        return (left_low, left_high, left_sum)
+        return left
       elif largest == cross_sum: 
-        return (cross_low, cross_high, cross_sum)
+        return cross
       else:
-        return (right_low, right_high, right_sum)
+        return right
 
   return max_sub(A, 0, len(A)-1)
 
