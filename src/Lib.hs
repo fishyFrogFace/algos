@@ -1,13 +1,10 @@
 module Lib
-  ( insertionSort
-  , linearSearch
+  ( linearSearch
   , BinInt (..)
   , Binary (..)
   , binaryAddition
-  , mergeSort
   , binarySearch
   , sumOfTwo
-  , quickSort
   ,
   )
 where
@@ -16,30 +13,6 @@ import           Data.Array (Array, listArray, (!))
 import           Data.List  (sort)
 import           Data.Maybe (isNothing)
 import           Utils      (Cond ((:?)), (?))
-
-insertionSort :: Ord a => [a] -> [a]
-insertionSort [] = []
-insertionSort (x : xs) = isort x (insertionSort xs)
-  where
-    isort :: Ord a => a -> [a] -> [a]
-    isort x [] = [x]
-    isort x (y : ys)
-      | x < y = x : y : ys
-      | otherwise = y : isort x ys
-
-{-
-insertionSort [5,2,3,1]
-isort 5 (isort 2 (isort 3 (isort 1 [])))
-isort 5 (isort 2 (isort 3 [1]))
-isort 5 (isort 2 (1:isort 3 []))
-isort 5 (isort 2 [1,3])
-isort 5 (1:isort 2 [3])
-isort 5 (1:[2,3])
-isort 5 [1,2,3]
-1:(isort 5 [2,3])
-1:2:(isort 5 [3])
-1:2:3:(isort 5 [])
-[1,2,3,5] -}
 
 linearSearch :: Eq a => [a] -> a -> Maybe Int
 linearSearch lst val = lin lst val 0
@@ -77,26 +50,6 @@ binaryAddition a b = reverse $ binadd (reverse a) (reverse b) Zero
         carry = added >= 2 ? One :? Zero
         result = added `mod` 2 == 0 ? Zero :? One
 
--- about 10x slower than Data.List (sort)
-merge :: Ord a => [a] -> [a] -> [a]
-merge [] b = b
-merge a [] = a
-merge (x : xs) (y : ys)
-  | x <= y = x : merge xs (y : ys)
-  | otherwise = y : merge (x : xs) ys
-
-mergeSort :: Ord a => [a] -> [a]
-mergeSort = mergeAll . map (: [])
-
-mergeAll :: Ord a => [[a]] -> [a]
-mergeAll []  = []
-mergeAll [x] = x
-mergeAll xs  = mergeAll (mergePairs xs)
-
-mergePairs :: Ord a => [[a]] -> [[a]]
-mergePairs (x : y : ys) = merge x y : mergePairs ys
-mergePairs ys           = ys
-
 arr :: Array Int Int
 arr = listArray (0, 500) [0 .. 500] :: Array Int Int
 
@@ -129,9 +82,3 @@ sumOfTwo lst n = sumOfTwo' 0
         search = binarySearch arr 0 l find
         find = n - (arr ! i)
 
-quickSort :: Ord a => [a] -> [a]
-quickSort []     = []
-quickSort (x:xs) = smaller ++ x : larger
-  where
-    larger  = quickSort [l | l <- xs, l > x]
-    smaller = quickSort [s | s <- xs, s <= x]
