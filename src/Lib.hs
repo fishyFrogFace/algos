@@ -7,14 +7,15 @@ module Lib
   , mergeSort
   , binarySearch
   , sumOfTwo
+  , quickSort
   ,
   )
 where
 
-import           Data.Array
+import           Data.Array (Array, listArray, (!))
 import           Data.List  (sort)
 import           Data.Maybe (isNothing)
-import           Utils
+import           Utils      (Cond ((:?)), (?))
 
 insertionSort :: Ord a => [a] -> [a]
 insertionSort [] = []
@@ -113,7 +114,7 @@ binarySearch a start end e
 -- TODO benchmark against old implementation
 -- i don't know where to find old implementation
 sumOfTwo :: [Int] -> Int -> Bool
-sumOfTwo [] n = False
+sumOfTwo [] _ = False
 sumOfTwo lst n = sumOfTwo' 0
   where
     sorted = sort lst -- O(n log n), using sort because of performance
@@ -127,3 +128,10 @@ sumOfTwo lst n = sumOfTwo' 0
       where
         search = binarySearch arr 0 l find
         find = n - (arr ! i)
+
+quickSort :: Ord a => [a] -> [a]
+quickSort []     = []
+quickSort (x:xs) = smaller ++ x : larger
+  where
+    larger  = quickSort [l | l <- xs, l > x]
+    smaller = quickSort [s | s <- xs, s <= x]
