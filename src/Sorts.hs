@@ -1,6 +1,7 @@
 module Sorts
   ( insertionSort
   , mergeSort
+  , Order(..)
   , quickSort
   ,
   )
@@ -50,10 +51,14 @@ mergePairs :: Ord a => [[a]] -> [[a]]
 mergePairs (x : y : ys) = merge x y : mergePairs ys
 mergePairs ys           = ys
 
-quickSort :: Ord a => [a] -> [a]
-quickSort []     = []
-quickSort (x:xs) = smaller ++ x : larger
+data Order = Decreasing | Increasing deriving Eq
+
+quickSort :: Ord a => [a] -> Order -> [a]
+quickSort [] _       = []
+quickSort (x:xs) ord
+  | ord == Decreasing = larger ++ x : smaller
+  | otherwise = smaller ++ x : larger
   where
-    larger  = quickSort [l | l <- xs, l > x]
-    smaller = quickSort [s | s <- xs, s <= x]
+    larger  = quickSort [l | l <- xs, l > x] ord
+    smaller = quickSort [s | s <- xs, s <= x] ord
 
