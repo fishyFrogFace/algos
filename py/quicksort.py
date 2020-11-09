@@ -4,9 +4,6 @@ def quicksort(A):
       q = partition(A,p,ril)
       qs(A,p,q-1)
       qs(A,q+1,ril)
-      return A
-    else:
-      return A
 
   def partition(A,p,ril):
     x = A[ril]
@@ -17,12 +14,13 @@ def quicksort(A):
         exchange(A,i,j)
     exchange(A,ril,i+1)
     return i+1
-  return qs(A, 0, len(A)-1)
+  qs(A, 0, len(A)-1)
+  return A
 
 def exchange(A,i,j):
   A[i], A[j] = A[j], A[i]
 
 if __name__ == "__main__":
-  print(list(map(quicksort, [[2,-4,0,5,1,3],[0],[]])))
+  print(list(map(quicksort, [[2,-4,0,5,1,3],[0],[],[1,2,3,4,5,6,7,8,9]])))
 
   
